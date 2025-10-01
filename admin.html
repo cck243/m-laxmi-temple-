@@ -1,288 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Panel - Jay Maa Laxmi Temple</title>
+
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --saffron:#FF6B35;--gold:#D4AF37;--maroon:#800020;
+      --cream:#FFF8DC;--charcoal:#2C2C2C;
+    }
+    body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,var(--cream) 0%,#FFF5E6 100%);min-height:100vh;}
+    .font-display{font-family:'Playfair Display',serif;}
+    .text-gradient{background:linear-gradient(135deg,var(--saffron),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .admin-card,.login-card,.modal-content{background:linear-gradient(135deg,rgba(255,255,255,0.95) 0%,rgba(255,248,220,0.95) 100%);backdrop-filter:blur(10px);border:1px solid rgba(212,175,55,0.3);}
+    .btn-primary{background:linear-gradient(135deg,var(--saffron),var(--gold));color:white;}
+    .btn-secondary{background:linear-gradient(135deg,#6b7280,#9ca3af);color:white;}
+    .modal-overlay{background:rgba(0,0,0,0.5);backdrop-filter:blur(5px);}
+    .status-verified{background:#10b981;color:white;}
+    .status-pending{background:#f59e0b;color:white;}
+  </style>
 </head>
-<body class="bg-gray-50">
-  <!-- Admin Login -->
-  <section id="admin-login" class="min-h-screen flex items-center justify-center">
-    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-      <h2 class="text-2xl font-bold mb-4">Admin Login</h2>
+<body class="temple-pattern">
+
+<!-- Admin Login -->
+<section id="admin-login" class="min-h-screen flex items-center justify-center">
+  <div class="max-w-md w-full">
+    <div class="text-center mb-8">
+      <h2 class="font-display text-3xl font-bold text-gradient">Admin Login</h2>
+      <p class="text-gray-600">Secure access to temple donation management</p>
+    </div>
+    <div class="login-card p-6 rounded-2xl">
       <form id="admin-login-form" class="space-y-4">
-        <input type="text" id="username" placeholder="Username"
-          class="w-full border px-3 py-2 rounded-lg" required>
-        <input type="password" id="password" placeholder="Password"
-          class="w-full border px-3 py-2 rounded-lg" required>
-        <button type="submit" class="w-full bg-orange-500 text-white py-2 rounded-lg">Login</button>
+        <input type="text" id="username" name="username" placeholder="Username" class="w-full border p-2 rounded" required>
+        <input type="password" id="password" name="password" placeholder="Password" class="w-full border p-2 rounded" required>
+        <button type="submit" class="btn-primary w-full py-2 rounded">Login</button>
       </form>
       <div class="mt-4 text-sm text-gray-600">
-        Demo: <b>admin</b> / <b>jaymaalaxmi2024</b>
+        <b>Demo:</b> user: <code>admin</code> pass: <code>jaymaalaxmi2024</code>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Admin Dashboard -->
-  <section id="admin-dashboard" class="hidden p-6">
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-xl font-bold">Admin Dashboard</h2>
-      <div>
-        <button id="open-settings" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Settings</button>
-        <button id="admin-logout" class="bg-gray-500 text-white px-4 py-2 rounded-lg ml-2">Logout</button>
-      </div>
+<!-- Dashboard -->
+<section id="admin-dashboard" class="hidden py-8 px-4">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex justify-between mb-6">
+      <h2 class="font-display text-2xl font-bold text-gradient">Admin Dashboard</h2>
+      <button id="admin-logout" class="btn-secondary px-4 py-2 rounded">Logout</button>
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-      <div class="p-4 bg-white shadow rounded-lg text-center">
-        <p class="text-gray-600">Total Donations</p>
-        <p id="admin-total" class="text-2xl font-bold">₹0</p>
+    <!-- Stats -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div class="admin-card p-4 text-center rounded">
+        <h3>Total Donations</h3><p id="admin-total" class="font-bold text-xl">₹0</p>
       </div>
-      <div class="p-4 bg-white shadow rounded-lg text-center">
-        <p class="text-gray-600">Total Donors</p>
-        <p id="admin-count" class="text-2xl font-bold">0</p>
+      <div class="admin-card p-4 text-center rounded">
+        <h3>Total Donors</h3><p id="admin-count" class="font-bold text-xl">0</p>
       </div>
-      <div class="p-4 bg-white shadow rounded-lg text-center">
-        <p class="text-gray-600">Target</p>
-        <p id="admin-target" class="text-2xl font-bold">₹0</p>
+      <div class="admin-card p-4 text-center rounded">
+        <h3>Target</h3><p id="admin-target" class="font-bold text-xl">₹0</p>
       </div>
-      <div class="p-4 bg-white shadow rounded-lg text-center">
-        <p class="text-gray-600">Progress</p>
-        <p id="admin-progress-percentage" class="text-2xl font-bold">0%</p>
+      <div class="admin-card p-4 text-center rounded">
+        <h3>Progress</h3><p id="admin-progress-percentage" class="font-bold text-xl">0%</p>
       </div>
     </div>
 
-    <div class="flex justify-between items-center mb-3">
-      <h3 class="font-semibold">Donation Management</h3>
-      <button id="open-add-modal" class="bg-green-500 text-white px-4 py-2 rounded-lg">+ Add Donation</button>
+    <!-- Quick Actions -->
+    <div class="admin-card p-4 rounded mb-6">
+      <button onclick="showAddDonationModal()" class="btn-primary px-4 py-2 rounded mr-2">+ Add Donation</button>
+      <button onclick="exportToExcel()" class="btn-secondary px-4 py-2 rounded mr-2">Export Excel</button>
+      <button onclick="exportToPDF()" class="btn-secondary px-4 py-2 rounded mr-2">Export PDF</button>
+      <button onclick="showSettingsModal()" class="btn-secondary px-4 py-2 rounded">Settings</button>
     </div>
-    <div class="bg-white p-4 rounded-lg shadow overflow-x-auto">
-      <table class="w-full text-sm border">
+
+    <!-- Donations Table -->
+    <div class="admin-card p-4 rounded">
+      <table class="w-full text-sm">
         <thead>
-          <tr class="bg-gray-100">
-            <th class="p-2 text-left">Date</th>
-            <th class="p-2 text-left">Name</th>
-            <th class="p-2 text-left">Phone</th>
-            <th class="p-2 text-left">Vehicle</th>
-            <th class="p-2 text-left">Amount</th>
-            <th class="p-2 text-left">Status</th>
-            <th class="p-2 text-left">Action</th>
-          </tr>
+          <tr><th>Date</th><th>Name</th><th>Phone</th><th>Vehicle</th><th>Amount</th><th>Status</th><th>Actions</th></tr>
         </thead>
         <tbody id="admin-donation-list"></tbody>
       </table>
     </div>
-  </section>
-
-  <!-- Add Donation Modal -->
-  <div id="add-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white p-6 rounded-lg w-full max-w-md">
-      <h3 class="text-lg font-bold mb-3">Add Donation</h3>
-      <form id="add-donation-form" class="space-y-3">
-        <input type="text" name="name" placeholder="Name" class="w-full border px-3 py-2 rounded" required>
-        <input type="text" name="phone" placeholder="Phone" class="w-full border px-3 py-2 rounded" required>
-        <input type="text" name="vehicle" placeholder="Vehicle Number" class="w-full border px-3 py-2 rounded" required>
-        <input type="number" name="amount" placeholder="Amount" class="w-full border px-3 py-2 rounded" required>
-        <div class="flex justify-end gap-2">
-          <button type="button" onclick="closeModal('add-modal')" class="px-4 py-2 border rounded">Cancel</button>
-          <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded">Save</button>
-        </div>
-      </form>
-    </div>
   </div>
+</section>
 
-  <!-- Edit Donation Modal -->
-  <div id="edit-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white p-6 rounded-lg w-full max-w-md">
-      <h3 class="text-lg font-bold mb-3">Edit Donation</h3>
-      <form id="edit-donation-form" class="space-y-3">
-        <input type="hidden" name="id">
-        <input type="text" name="name" placeholder="Name" class="w-full border px-3 py-2 rounded" required>
-        <input type="text" name="phone" placeholder="Phone" class="w-full border px-3 py-2 rounded" required>
-        <input type="text" name="vehicle" placeholder="Vehicle Number" class="w-full border px-3 py-2 rounded" required>
-        <input type="number" name="amount" placeholder="Amount" class="w-full border px-3 py-2 rounded" required>
-        <div class="flex justify-end gap-2">
-          <button type="button" onclick="closeModal('edit-modal')" class="px-4 py-2 border rounded">Cancel</button>
-          <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Update</button>
-        </div>
-      </form>
-    </div>
+<!-- Add Donation Modal -->
+<div id="add-donation-modal" class="hidden fixed inset-0 modal-overlay flex items-center justify-center z-50">
+  <div class="modal-content p-6 rounded w-full max-w-md">
+    <h3 class="text-lg font-bold mb-4">Add Donation</h3>
+    <form id="add-donation-form" class="space-y-3">
+      <input type="text" name="name" placeholder="Name" required class="w-full border p-2 rounded">
+      <input type="tel" name="phone" placeholder="Phone" required class="w-full border p-2 rounded">
+      <input type="text" name="vehicle" placeholder="Vehicle Number" required class="w-full border p-2 rounded">
+      <input type="number" name="amount" placeholder="Amount (₹)" required min="51" class="w-full border p-2 rounded">
+      <div class="flex justify-end">
+        <button type="button" onclick="closeModal('add-donation-modal')" class="mr-2 px-4 py-2 bg-gray-200 rounded">Cancel</button>
+        <button type="submit" class="btn-primary px-4 py-2 rounded">Save</button>
+      </div>
+    </form>
   </div>
+</div>
 
-  <!-- Settings Modal -->
-  <div id="settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white p-6 rounded-lg w-full max-w-md">
-      <h3 class="text-lg font-bold mb-3">Settings</h3>
-      <form id="settings-form" class="space-y-3">
-        <input type="number" name="targetAmount" placeholder="Target Amount" class="w-full border px-3 py-2 rounded" required>
-        <input type="text" name="bankAccount" placeholder="Bank Account" class="w-full border px-3 py-2 rounded" required>
-        <input type="text" name="ifscCode" placeholder="IFSC Code" class="w-full border px-3 py-2 rounded" required>
-        <input type="text" name="upiId" placeholder="UPI ID" class="w-full border px-3 py-2 rounded" required>
-        <div class="flex justify-end gap-2">
-          <button type="button" onclick="closeModal('settings-modal')" class="px-4 py-2 border rounded">Cancel</button>
-          <button type="submit" class="px-4 py-2 bg-orange-500 text-white rounded">Save</button>
-        </div>
-      </form>
-    </div>
+<!-- Settings Modal -->
+<div id="settings-modal" class="hidden fixed inset-0 modal-overlay flex items-center justify-center z-50">
+  <div class="modal-content p-6 rounded w-full max-w-md">
+    <h3 class="text-lg font-bold mb-4">Settings</h3>
+    <form id="settings-form" class="space-y-3">
+      <input type="number" name="targetAmount" placeholder="Target (₹)" class="w-full border p-2 rounded">
+      <input type="text" name="bankAccount" placeholder="Bank Account" class="w-full border p-2 rounded">
+      <input type="text" name="ifscCode" placeholder="IFSC Code" class="w-full border p-2 rounded">
+      <input type="text" name="upiId" placeholder="UPI ID" class="w-full border p-2 rounded">
+      <div class="flex justify-end">
+        <button type="button" onclick="closeModal('settings-modal')" class="mr-2 px-4 py-2 bg-gray-200 rounded">Cancel</button>
+        <button type="submit" class="btn-primary px-4 py-2 rounded">Save</button>
+      </div>
+    </form>
   </div>
+</div>
 
-  <script>
-    const templeApp = {
-      adminLoggedIn: false,
-      donations: [],
-      settings: {
-        targetAmount: 500000,
-        bankAccount: "1234567890",
-        ifscCode: "SBIN0001234",
-        upiId: "jaymaalaxmi@upi"
-      },
-      showDashboard() {
-        document.getElementById("admin-login").classList.add("hidden");
-        document.getElementById("admin-dashboard").classList.remove("hidden");
-        this.updateStats();
-        renderDonations();
-      },
-      logout() {
-        this.adminLoggedIn = false;
-        document.getElementById("admin-login").classList.remove("hidden");
-        document.getElementById("admin-dashboard").classList.add("hidden");
-      },
-      addDonation(d) {
-        // Duplicate check
-        const duplicate = this.donations.find(x =>
-          x.name.toLowerCase() === d.name.toLowerCase() &&
-          x.vehicle.toLowerCase() === d.vehicle.toLowerCase()
-        );
-        if (duplicate) {
-          alert("⚠️ Duplicate Entry: This donor (Name + Vehicle) already exists!");
-          return false;
-        }
-        this.donations.push({ ...d, id: Date.now(), date: new Date(), verified: true });
-        this.updateStats();
-        renderDonations();
-        return true;
-      },
-      editDonation(id, data) {
-        // Duplicate check (ignore same id)
-        const duplicate = this.donations.find(x =>
-          x.id !== id &&
-          x.name.toLowerCase() === data.name.toLowerCase() &&
-          x.vehicle.toLowerCase() === data.vehicle.toLowerCase()
-        );
-        if (duplicate) {
-          alert("⚠️ Duplicate Entry: This donor (Name + Vehicle) already exists!");
-          return false;
-        }
-        const i = this.donations.findIndex(d => d.id === id);
-        if (i > -1) {
-          this.donations[i] = { ...this.donations[i], ...data };
-          this.updateStats();
-          renderDonations();
-        }
-        return true;
-      },
-      deleteDonation(id) {
-        this.donations = this.donations.filter(d => d.id !== id);
-        this.updateStats();
-        renderDonations();
-      },
-      updateStats() {
-        const total = this.donations.reduce((s, d) => s + Number(d.amount), 0);
-        document.getElementById("admin-total").textContent = "₹" + total.toLocaleString();
-        document.getElementById("admin-count").textContent = this.donations.length;
-        document.getElementById("admin-target").textContent = "₹" + this.settings.targetAmount.toLocaleString();
-        const progress = ((total / this.settings.targetAmount) * 100).toFixed(1);
-        document.getElementById("admin-progress-percentage").textContent = progress + "%";
-      },
-      formatDate(d) {
-        return new Date(d).toLocaleDateString();
-      }
-    };
+<script>
+/* ---------------- TempleApp Logic ---------------- */
+const templeApp = {
+  adminLoggedIn:false,
+  donations:[],
+  settings:{targetAmount:5000000,bankAccount:"1234567890",ifscCode:"SBIN0001234",upiId:"jaymaalaxmi@upi"},
 
-    function renderDonations() {
-      const tbody = document.getElementById("admin-donation-list");
-      tbody.innerHTML = "";
-      templeApp.donations.forEach(d => {
-        tbody.innerHTML += `
-          <tr class="border-t">
-            <td class="p-2">${templeApp.formatDate(d.date)}</td>
-            <td class="p-2">${d.name}</td>
-            <td class="p-2">${d.phone}</td>
-            <td class="p-2">${d.vehicle}</td>
-            <td class="p-2">₹${d.amount}</td>
-            <td class="p-2">${d.verified ? "✅ Verified" : "⏳ Pending"}</td>
-            <td class="p-2">
-              <button onclick="openEditModal(${d.id})" class="text-blue-500">Edit</button>
-              <button onclick="templeApp.deleteDonation(${d.id})" class="text-red-500 ml-2">Delete</button>
-            </td>
-          </tr>`;
-      });
-    }
+  login(u,p){ if(u==="admin" && p==="jaymaalaxmi2024"){ this.adminLoggedIn=true; this.showAdminDashboard(); this.updateAdminStats(); return true;} return false; },
+  logout(){ this.adminLoggedIn=false; document.getElementById("admin-dashboard").classList.add("hidden"); document.getElementById("admin-login").classList.remove("hidden");},
+  
+  addDonation(d){ d.id=Date.now(); d.date=new Date(); d.verified=true; this.donations.push(d); this.updateAdminStats(); return d; },
+  deleteDonation(id){ this.donations=this.donations.filter(d=>d.id!==id); this.updateAdminStats(); },
+  verifyDonation(id){ const d=this.donations.find(x=>x.id===id); if(d) d.verified=true; this.updateAdminStats(); },
+  
+  updateAdminStats(){ 
+    const total=this.donations.reduce((s,d)=>s+d.amount,0);
+    document.getElementById("admin-total").textContent="₹"+total.toLocaleString();
+    document.getElementById("admin-count").textContent=this.donations.length;
+    document.getElementById("admin-target").textContent="₹"+this.settings.targetAmount.toLocaleString();
+    document.getElementById("admin-progress-percentage").textContent=((total/this.settings.targetAmount*100)||0).toFixed(1)+"%";
+    renderAdminDonationList();
+  },
+  
+  showAdminDashboard(){ document.getElementById("admin-login").classList.add("hidden"); document.getElementById("admin-dashboard").classList.remove("hidden"); },
+  formatDate(d){ return new Date(d).toLocaleDateString(); },
+  showSuccess(msg){ alert("✅ "+msg); },
+  showError(msg){ alert("❌ "+msg); }
+};
 
-    function openModal(id) { document.getElementById(id).classList.remove("hidden"); }
-    function closeModal(id) { document.getElementById(id).classList.add("hidden"); }
+/* ---------------- Event Listeners ---------------- */
+document.getElementById("admin-login-form").addEventListener("submit",e=>{
+  e.preventDefault();
+  const u=document.getElementById("username").value;
+  const p=document.getElementById("password").value;
+  if(!templeApp.login(u,p)){ templeApp.showError("Invalid credentials"); }
+});
+document.getElementById("admin-logout").addEventListener("click",()=>templeApp.logout());
 
-    // Add Donation
-    document.getElementById("open-add-modal").onclick = () => openModal("add-modal");
-    document.getElementById("add-donation-form").onsubmit = e => {
-      e.preventDefault();
-      const f = e.target;
-      const success = templeApp.addDonation({
-        name: f.name.value, phone: f.phone.value, vehicle: f.vehicle.value, amount: Number(f.amount.value)
-      });
-      if (success) { f.reset(); closeModal("add-modal"); }
-    };
+document.getElementById("add-donation-form").addEventListener("submit",e=>{
+  e.preventDefault();
+  const f=new FormData(e.target);
+  templeApp.addDonation({name:f.get("name"),phone:f.get("phone"),vehicle:f.get("vehicle").toUpperCase(),amount:parseFloat(f.get("amount"))});
+  closeModal("add-donation-modal"); e.target.reset(); templeApp.showSuccess("Donation added");
+});
 
-    // Edit Donation
-    function openEditModal(id) {
-      const d = templeApp.donations.find(x => x.id === id);
-      const f = document.getElementById("edit-donation-form");
-      f.id.value = d.id; f.name.value = d.name; f.phone.value = d.phone;
-      f.vehicle.value = d.vehicle; f.amount.value = d.amount;
-      openModal("edit-modal");
-    }
-    document.getElementById("edit-donation-form").onsubmit = e => {
-      e.preventDefault();
-      const f = e.target;
-      const success = templeApp.editDonation(Number(f.id.value), {
-        name: f.name.value, phone: f.phone.value, vehicle: f.vehicle.value, amount: Number(f.amount.value)
-      });
-      if (success) closeModal("edit-modal");
-    };
+document.getElementById("settings-form").addEventListener("submit",e=>{
+  e.preventDefault();
+  const f=new FormData(e.target);
+  templeApp.settings.targetAmount=parseFloat(f.get("targetAmount")||5000000);
+  templeApp.settings.bankAccount=f.get("bankAccount");
+  templeApp.settings.ifscCode=f.get("ifscCode");
+  templeApp.settings.upiId=f.get("upiId");
+  closeModal("settings-modal"); templeApp.updateAdminStats(); templeApp.showSuccess("Settings saved");
+});
 
-    // Settings
-    document.getElementById("open-settings").onclick = () => {
-      const f = document.getElementById("settings-form");
-      f.targetAmount.value = templeApp.settings.targetAmount;
-      f.bankAccount.value = templeApp.settings.bankAccount;
-      f.ifscCode.value = templeApp.settings.ifscCode;
-      f.upiId.value = templeApp.settings.upiId;
-      openModal("settings-modal");
-    };
-    document.getElementById("settings-form").onsubmit = e => {
-      e.preventDefault();
-      const f = e.target;
-      templeApp.settings.targetAmount = Number(f.targetAmount.value);
-      templeApp.settings.bankAccount = f.bankAccount.value;
-      templeApp.settings.ifscCode = f.ifscCode.value;
-      templeApp.settings.upiId = f.upiId.value;
-      templeApp.updateStats();
-      closeModal("settings-modal");
-    };
+/* ---------------- Render Donations ---------------- */
+function renderAdminDonationList(){
+  const body=document.getElementById("admin-donation-list"); body.innerHTML="";
+  templeApp.donations.forEach(d=>{
+    const row=document.createElement("tr");
+    row.innerHTML=`
+      <td>${templeApp.formatDate(d.date)}</td>
+      <td>${d.name}</td>
+      <td>${d.phone}</td>
+      <td>${d.vehicle}</td>
+      <td>₹${d.amount.toLocaleString()}</td>
+      <td><span class="${d.verified?"status-verified":"status-pending"} px-2 py-1 rounded text-xs">${d.verified?"Verified":"Pending"}</span></td>
+      <td><button onclick="templeApp.deleteDonation(${d.id});renderAdminDonationList()" class="bg-red-200 px-2 py-1 rounded text-xs">Delete</button></td>`;
+    body.appendChild(row);
+  });
+}
 
-    // Login / Logout
-    document.getElementById("admin-login-form").onsubmit = e => {
-      e.preventDefault();
-      if (username.value === "admin" && password.value === "jaymaalaxmi2024") {
-        templeApp.adminLoggedIn = true; templeApp.showDashboard();
-      } else alert("Invalid credentials");
-    };
-    document.getElementById("admin-logout").onclick = () => templeApp.logout();
+/* ---------------- Modal Helpers ---------------- */
+function showAddDonationModal(){ document.getElementById("add-donation-modal").classList.remove("hidden"); }
+function showSettingsModal(){ document.getElementById("settings-modal").classList.remove("hidden"); }
+function closeModal(id){ document.getElementById(id).classList.add("hidden"); }
 
-    // Demo data
-    templeApp.addDonation({ name: "Ramesh", phone: "9876543210", vehicle: "OD02AB1234", amount: 1000 });
-    templeApp.addDonation({ name: "Sita", phone: "9123456780", vehicle: "OD05XY5678", amount: 5000 });
-  </script>
+/* Export Dummy */
+function exportToExcel(){ templeApp.showSuccess("Excel export simulated"); }
+function exportToPDF(){ templeApp.showSuccess("PDF export simulated"); }
+</script>
 </body>
 </html>
