@@ -522,7 +522,7 @@
             function validateVehicleNumber() {
                 const vehicle = vehicleInput.value;
                 const vehicleGroup = vehicleInput.closest('.input-field').parentElement;
-                const pattern = /^[A-Z]{2}\[a-z]{2}[A-Z]{2}\{4}$/;
+                const pattern = /^[A-Z]{2}\[a-z]{2}[A-Z]{2}\[0-9]{4}$/;
                 
                 if (vehicle && pattern.test(vehicle)) {
                     vehicleGroup.classList.remove('error');
