@@ -256,11 +256,9 @@
                         <input type="text" 
                                id="vehicle-number" 
                                name="vehicle" 
-                               required
-                               pattern="[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}"
                                class="input-field w-full px-4 py-3 rounded-lg border border-gray-300"
                                placeholder="e.g., DL01AB1234">
-                        <p class="text-xs text-gray-500 mt-1">Format: DL01AB1234 (State Code + Number + Letters + Number)</p>
+                        <p class="text-xs text-gray-500 mt-1">Format: OD 01 AB 1234 </p>
                         
                         <!-- Duplicate Warning -->
                         <div id="vehicle-warning" class="hidden mt-2 p-3 rounded-lg warning-message text-sm">
@@ -580,7 +578,7 @@
                 }
                 
                 if (!isVehicleValid) {
-                    templeApp.showError('Please enter a valid vehicle number (e.g., DL01AB1234)');
+                    templeApp.showError('Please enter a valid vehicle number (e.g., OD 01 AB 1234)');
                     return;
                 }
                 
