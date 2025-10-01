@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Records - Jay Maa Laxmi Temple</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --saffron: #FF6B35;
+            --gold: #D4AF37;
+            --maroon: #800020;
+            --cream: #FFF8DC;
+            --charcoal: #2C2C2C;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #FFF5E6 100%);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, var(--saffron), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stats-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 248, 220, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+        }
+        
+        .donor-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .donor-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: var(--gold);
+        }
+        
+        .search-input {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .search-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, var(--saffron), var(--gold));
+            transition: width 2s ease-out;
+        }
+        
+        .temple-pattern {
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(255, 107, 53, 0.1) 0%, transparent 50%);
+        }
+        
+        .nav-bottom {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .nav-item {
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item:hover {
+            color: var(--saffron);
+            transform: translateY(-2px);
+        }
+        
+        .chart-container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .filter-btn {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .filter-btn:hover {
+            border-color: var(--gold);
+            transform: translateY(-2px);
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--saffron), var(--gold));
+            color: white;
+            border-color: var(--saffron);
+        }
+        
+        .live-indicator {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .copy-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="temple-pattern">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-orange-500 to-yellow-500 text-white py-4 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        <span class="font-semibold">Back to Home</span>
+                    </a>
+                </div>
+                <div class="text-center">
+                    <h1 class="font-display text-xl font-bold">📊 Transparency Portal</h1>
+                </div>
+                <div class="flex items-center">
+                    <div class="live-indicator w-3 h-3 bg-green-400 rounded-full mr-2"></div>
+                    <span class="text-sm">Live Updates</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="py-8 px-4">
+        <div class="max-w-6xl mx-auto">
+            <!-- Page Header -->
+            <div class="text-center mb-12">
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-gradient mb-4">
+                    Donation Transparency
+                </h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Complete transparency in our temple construction funding. 
+                    View all donations, track progress, and see how your contributions make a difference.
+                </p>
+            </div>
+            
+            <!-- Statistics Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <!-- Total Donations -->
+                <div class="stats-card rounded-xl p-6 text-center">
+                    <div class="text-3xl mb-2">💰</div>
+                    <h3 class="font-semibold text-gray-700 mb-2">Total Collected</h3>
+                    <p id="records-total" class="text-2xl md:text-3xl font-bold text-gradient">₹0</p>
+                    <p class="text-xs text-gray-500 mt-1">From all donors</p>
+                </div>
+                
+                <!-- Target Amount -->
+                <div class="stats-card rounded-xl p-6 text-center">
+                    <div class="text-3xl mb-2">🎯</div>
+                    <h3 class="font-semibold text-gray-700 mb-2">Target Amount</h3>
+                    <p id="records-target" class="text-2xl md:text-3xl font-bold text-gradient">₹0</p>
+                    <p class="text-xs text-gray-500 mt-1">Construction goal</p>
+                </div>
+                
+                <!-- Balance Remaining -->
+                <div class="stats-card rounded-xl p-6 text-center">
+                    <div class="text-3xl mb-2">📊</div>
+                    <h3 class="font-semibold text-gray-700 mb-2">Balance Remaining</h3>
+                    <p id="records-balance" class="text-2xl md:text-3xl font-bold text-gradient">₹0</p>
+                    <p class="text-xs text-gray-500 mt-1">Amount needed</p>
+                </div>
+                
+                <!-- Total Donors -->
+                <div class="stats-card rounded-xl p-6 text-center">
+                    <div class="text-3xl mb-2">👥</div>
+                    <h3 class="font-semibold text-gray-700 mb-2">Total Donors</h3>
+                    <p id="total-donors" class="text-2xl md:text-3xl font-bold text-gradient">0</p>
+                    <p class="text-xs text-gray-500 mt-1">Generous devotees</p>
+                </div>
+            </div>
+            
+            <!-- Progress Visualization -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Progress Bar -->
+                <div class="stats-card rounded-xl p-6">
+                    <h3 class="font-semibold text-gray-800 mb-4">Construction Progress</h3>
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">Progress</span>
+                            <span id="records-progress-percentage" class="text-sm font-semibold text-gray-800">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+                            <div id="records-progress" class="progress-bar h-full rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                        Every donation brings us closer to completing Maa Laxmi's sacred temple
+                    </p>
+                </div>
+                
+                <!-- Donation Chart -->
+                <div class="chart-container rounded-xl p-6">
+                    <h3 class="font-semibold text-gray-800 mb-4">Daily Donations</h3>
+                    <div id="donation-chart" style="height: 200px;"></div>
+                </div>
+            </div>
+            
+            <!-- Search and Filter Section -->
+            <div class="stats-card rounded-xl p-6 mb-8">
+                <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                    <!-- Search -->
+                    <div class="flex-1 max-w-md">
+                        <div class="relative">
+                            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <input type="text" 
+                                   id="search-donors" 
+                                   placeholder="Search by name or vehicle number..."
+                                   class="search-input w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300">
+                        </div>
+                    </div>
+                    
+                    <!-- Filters -->
+                    <div class="flex flex-wrap gap-2">
+                        <button class="filter-btn active px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-medium" data-filter="all">
+                            All Donations
+                        </button>
+                        <button class="filter-btn px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-medium" data-filter="verified">
+                            Verified Only
+                        </button>
+                        <button class="filter-btn px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-medium" data-filter="recent">
+                            Recent (7 days)
+                        </button>
+                        <button class="filter-btn px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-medium" data-filter="large">
+                            Large Donations
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bank Account Information -->
+            <div class="stats-card rounded-xl p-6 mb-8">
+                <h3 class="font-semibold text-gray-800 mb-4 flex items-center">
+                    <span class="mr-2">🏦</span>
+                    Bank Account Information
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Account Name:</span>
+                            <span class="font-semibold">Jay Maa Laxmi Temple Trust</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Account Number:</span>
+                            <div class="flex items-center">
+                                <span class="font-semibold mr-2">1234567890</span>
+                                <button onclick="copyToClipboard('1234567890')" class="copy-btn text-orange-500 hover:text-orange-600">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Bank:</span>
+                            <span class="font-semibold">State Bank of India</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Branch:</span>
+                            <span class="font-semibold">Main Branch</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">IFSC Code:</span>
+                            <div class="flex items-center">
+                                <span class="font-semibold mr-2">SBIN0001234</span>
+                                <button onclick="copyToClipboard('SBIN0001234')" class="copy-btn text-orange-500 hover:text-orange-600">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">UPI ID:</span>
+                            <div class="flex items-center">
+                                <span class="font-semibold mr-2">jaymaalaxmi@upi</span>
+                                <button onclick="copyToClipboard('jaymaalaxmi@upi')" class="copy-btn text-orange-500 hover:text-orange-600">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                    <p class="text-sm text-yellow-800">
+                        <strong>Note:</strong> After making payment, your donation will be verified and marked as confirmed within 24 hours.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Donor List -->
+            <div class="stats-card rounded-xl p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="font-semibold text-gray-800 flex items-center">
+                        <span class="mr-2">👥</span>
+                        Donor Records
+                    </h3>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <span id="donor-count">0</span>
+                        <span class="ml-1">donors found</span>
+                    </div>
+                </div>
+                
+                <div id="donor-list" class="space-y-4">
+                    <!-- Donor cards will be populated by JavaScript -->
+                </div>
+                
+                <!-- Load More Button -->
+                <div class="text-center mt-8">
+                    <button id="load-more" class="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-orange-600 hover:to-yellow-600 transition-all duration-300">
+                        Load More Donors
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Bottom Navigation -->
+    <nav class="nav-bottom fixed bottom-0 left-0 right-0 z-50 py-2">
+        <div class="flex justify-around items-center max-w-md mx-auto">
+            <a href="index.html" class="nav-item flex flex-col items-center p-2 text-gray-600">
+                <svg class="w-6 h-6 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                </svg>
+                <span class="text-xs font-medium">Home</span>
+            </a>
+            
+            <a href="donate.html" class="nav-item flex flex-col items-center p-2 text-gray-600">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                </svg>
+                <span class="text-xs font-medium">Donate</span>
+            </a>
+            
+            <a href="records.html" class="nav-item flex flex-col items-center p-2 text-orange-600">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <span class="text-xs font-medium">Records</span>
+            </a>
+            
+            <a href="admin.html" class="nav-item flex flex-col items-center p-2 text-gray-600">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                <span class="text-xs font-medium">Admin</span>
+            </a>
+        </div>
+    </nav>
+    
+    <!-- Main JavaScript -->
+    <script src="main.js"></script>
+    
+    <!-- Records Page Script -->
+    <script>
+        let currentFilter = 'all';
+        let displayedDonors = 10;
+        let filteredDonations = [];
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize records page
+            updateRecordsPage();
+            initChart();
+            setupFilters();
+            setupSearch();
+            setupLoadMore();
+            
+            // Update every 30 seconds
+            setInterval(updateRecordsPage, 30000);
+        });
+        
+        function updateRecordsPage() {
+            // Update statistics
+            updateRecordsStats();
+            
+            // Update donor list
+            updateDonorList();
+            
+            // Update chart
+            updateChart();
+        }
+        
+        function updateRecordsStats() {
+            const totalElement = document.getElementById('records-total');
+            const targetElement = document.getElementById('records-target');
+            const balanceElement = document.getElementById('records-balance');
+            const progressElement = document.getElementById('records-progress');
+            const progressPercentage = document.getElementById('records-progress-percentage');
+            const totalDonorsElement = document.getElementById('total-donors');
+            
+            if (totalElement) {
+                templeApp.animateCounter(totalElement, templeApp.getTotalDonations());
+            }
+            if (targetElement) {
+                targetElement.textContent = templeApp.formatCurrency(templeApp.settings.targetAmount);
+            }
+            if (balanceElement) {
+                balanceElement.textContent = templeApp.formatCurrency(templeApp.getBalanceRemaining());
+            }
+            if (progressElement) {
+                const progress = templeApp.getDonationProgress();
+                templeApp.animateProgressBar(progressElement, progress);
+                if (progressPercentage) {
+                    progressPercentage.textContent = Math.round(progress) + '%';
+                }
+            }
+            if (totalDonorsElement) {
+                totalDonorsElement.textContent = templeApp.donations.length;
+            }
+        }
+        
+        function updateDonorList() {
+            // Apply current filter
+            applyFilter(currentFilter);
+            
+            // Update donor count
+            const donorCountElement = document.getElementById('donor-count');
+            if (donorCountElement) {
+                donorCountElement.textContent = filteredDonations.length;
+            }
+            
+            // Render filtered donations
+            renderDonorList();
+        }
+        
+        function renderDonorList() {
+            const container = document.getElementById('donor-list');
+            if (!container) return;
+            
+            const donationsToShow = filteredDonations.slice(0, displayedDonors);
+            
+            const html = donationsToShow.map(donation => `
+                <div class="donor-card rounded-xl p-4">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-2">
+                                <h4 class="font-semibold text-gray-900 mr-2">${donation.name}</h4>
+                                ${donation.verified ? '<span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">✓ Verified</span>' : '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">⏳ Pending</span>'}
+                            </div>
+                            <p class="text-sm text-gray-600 mb-1">
+                                <span class="font-medium">Vehicle:</span> ${donation.vehicle}
+                            </p>
+                            <p class="text-sm text-gray-600 mb-1">
+                                <span class="font-medium">Phone:</span> ${donation.phone.replace(/\d(?=\d{4})/g, "*")}
+                            </p>
+                            <p class="text-xs text-gray-500">
+                                ${templeApp.formatDate(donation.date)}
+                            </p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xl font-bold text-gradient">₹${donation.amount.toLocaleString()}</p>
+                            <p class="text-xs text-gray-500 mt-1">
+                                ${getDonationCategory(donation.amount)}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = html;
+            
+            // Show/hide load more button
+            const loadMoreBtn = document.getElementById('load-more');
+            if (loadMoreBtn) {
+                if (displayedDonors >= filteredDonations.length) {
+                    loadMoreBtn.style.display = 'none';
+                } else {
+                    loadMoreBtn.style.display = 'block';
+                }
+            }
+        }
+        
+        function getDonationCategory(amount) {
+            if (amount >= 10000) return 'Divine Blessing';
+            if (amount >= 5000) return 'Generous Donor';
+            if (amount >= 1000) return 'Premium Support';
+            if (amount >= 500) return 'Standard Contribution';
+            return 'Devotee Donation';
+        }
+        
+        function setupFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Update current filter
+                    currentFilter = this.dataset.filter;
+                    displayedDonors = 10; // Reset display count
+                    
+                    // Apply filter and update display
+                    applyFilter(currentFilter);
+                    renderDonorList();
+                });
+            });
+        }
+        
+        function applyFilter(filter) {
+            const now = new Date();
+            const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            
+            switch (filter) {
+                case 'verified':
+                    filteredDonations = templeApp.donations.filter(d => d.verified);
+                    break;
+                case 'recent':
+                    filteredDonations = templeApp.donations.filter(d => 
+                        new Date(d.date) >= sevenDaysAgo
+                    );
+                    break;
+                case 'large':
+                    filteredDonations = templeApp.donations.filter(d => d.amount >= 1000);
+                    break;
+                default:
+                    filteredDonations = [...templeApp.donations];
+            }
+        }
+        
+        function setupSearch() {
+            const searchInput = document.getElementById('search-donors');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                
+                if (searchTerm === '') {
+                    // Reset to current filter
+                    applyFilter(currentFilter);
+                } else {
+                    // Search across all donations
+                    filteredDonations = templeApp.donations.filter(donation => 
+                        donation.name.toLowerCase().includes(searchTerm) ||
+                        donation.vehicle.toLowerCase().includes(searchTerm) ||
+                        donation.phone.includes(searchTerm)
+                    );
+                }
+                
+                displayedDonors = 10; // Reset display count
+                renderDonorList();
+            });
+        }
+        
+        function setupLoadMore() {
+            const loadMoreBtn = document.getElementById('load-more');
+            
+            loadMoreBtn.addEventListener('click', function() {
+                displayedDonors += 10;
+                renderDonorList();
+            });
+        }
+        
+        function initChart() {
+            const chartDom = document.getElementById('donation-chart');
+            if (!chartDom) return;
+            
+            const myChart = echarts.init(chartDom);
+            
+            // Generate sample daily data for the last 30 days
+            const dates = [];
+            const amounts = [];
+            const today = new Date();
+            
+            for (let i = 29; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                dates.push(date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }));
+                
+                // Generate random donation amounts for demonstration
+                const dayDonations = Math.floor(Math.random() * 50000) + 10000;
+                amounts.push(dayDonations);
+            }
+            
+            const option = {
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: function(params) {
+                        return `${params[0].name}<br/>Donations: ₹${params[0].value.toLocaleString()}`;
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    data: dates,
+                    axisLabel: {
+                        rotate: 45,
+                        fontSize: 10
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: function(value) {
+                            return '₹' + (value / 1000) + 'k';
+                        }
+                    }
+                },
+                series: [{
+                    data: amounts,
+                    type: 'line',
+                    smooth: true,
+                    lineStyle: {
+                        color: '#FF6B35',
+                        width: 3
+                    },
+                    itemStyle: {
+                        color: '#D4AF37'
+                    },
+                    areaStyle: {
+                        color: {
+                            type: 'linear',
+                            x: 0,
+                            y: 0,
+                            x2: 0,
+                            y2: 1,
+                            colorStops: [{
+                                offset: 0, color: 'rgba(255, 107, 53, 0.3)'
+                            }, {
+                                offset: 1, color: 'rgba(255, 107, 53, 0.05)'
+                            }]
+                        }
+                    }
+                }],
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '15%',
+                    containLabel: true
+                }
+            };
+            
+            myChart.setOption(option);
+            
+            // Store chart instance for updates
+            window.donationChart = myChart;
+        }
+        
+        function updateChart() {
+            // Update chart with real data if needed
+            if (window.donationChart) {
+                // You can update the chart with real donation data here
+                window.donationChart.resize();
+            }
+        }
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                templeApp.showSuccess('Copied to clipboard: ' + text);
+            }).catch(function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+        
+        // Initialize filter on page load
+        applyFilter('all');
+    </script>
+</body>
+</html>

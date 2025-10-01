@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate - Jay Maa Laxmi Temple</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --saffron: #FF6B35;
+            --gold: #D4AF37;
+            --maroon: #800020;
+            --cream: #FFF8DC;
+            --charcoal: #2C2C2C;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #FFF5E6 100%);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--saffron) 0%, var(--gold) 50%, var(--maroon) 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .form-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 248, 220, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .input-field {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .input-field:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .input-field.error {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+        
+        .input-field.success {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+        
+        .warning-message {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 1px solid #f59e0b;
+            color: #92400e;
+        }
+        
+        .success-message {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border: 1px solid #10b981;
+            color: #065f46;
+        }
+        
+        .temple-pattern {
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(255, 107, 53, 0.1) 0%, transparent 50%);
+        }
+        
+        .nav-bottom {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .nav-item {
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item:hover {
+            color: var(--saffron);
+            transform: translateY(-2px);
+        }
+        
+        .donation-amounts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 0.5rem;
+        }
+        
+        .amount-option {
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .amount-option:hover {
+            border-color: var(--gold);
+            transform: translateY(-2px);
+        }
+        
+        .amount-option.selected {
+            border-color: var(--saffron);
+            background: linear-gradient(135deg, var(--saffron), var(--gold));
+            color: white;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--saffron), var(--gold));
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .blessing-text {
+            background: linear-gradient(135deg, var(--saffron), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .floating-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="temple-pattern">
+    <!-- Header -->
+    <header class="hero-gradient text-white py-4 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        <span class="font-semibold">Back to Home</span>
+                    </a>
+                </div>
+                <div class="text-center">
+                    <h1 class="font-display text-xl font-bold">🙏 Jay Maa Laxmi 🙏</h1>
+                </div>
+                <div class="w-24"></div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="py-8 px-4">
+        <div class="max-w-2xl mx-auto">
+            <!-- Form Header -->
+            <div class="text-center mb-8">
+                <div class="floating-animation text-4xl mb-4">🕉️</div>
+                <h2 class="font-display text-2xl md:text-3xl font-bold blessing-text mb-4">
+                    Make Your Divine Contribution
+                </h2>
+                <p class="text-gray-600 max-w-md mx-auto">
+                    Your generous donation helps build Maa Laxmi's sacred temple. 
+                    Every contribution brings divine blessings to you and your family.
+                </p>
+            </div>
+            
+            <!-- Donation Form -->
+            <div class="form-card rounded-2xl p-6 md:p-8">
+                <form id="donation-form" class="space-y-6">
+                    <!-- Date (Auto-generated) -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Date
+                        </label>
+                        <input type="text" 
+                               value="" 
+                               id="donation-date"
+                               class="input-field w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50"
+                               readonly>
+                    </div>
+                    
+                    <!-- Name -->
+                    <div>
+                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Full Name <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" 
+                               id="name" 
+                               name="name" 
+                               required
+                               class="input-field w-full px-4 py-3 rounded-lg border border-gray-300"
+                               placeholder="Enter your full name">
+                    </div>
+                    
+                    <!-- Phone Number -->
+                    <div>
+                        <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Phone Number <span class="text-red-500">*</span>
+                        </label>
+                        <input type="tel" 
+                               id="phone" 
+                               name="phone" 
+                               required
+                               pattern="[0-9]{10}"
+                               class="input-field w-full px-4 py-3 rounded-lg border border-gray-300"
+                               placeholder="Enter 10-digit phone number">
+                        <p class="text-xs text-gray-500 mt-1">Example: 9876543210</p>
+                    </div>
+                    
+                    <!-- Vehicle Number -->
+                    <div>
+                        <label for="vehicle-number" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Vehicle Number <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" 
+                               id="vehicle-number" 
+                               name="vehicle" 
+                               required
+                               pattern="[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}"
+                               class="input-field w-full px-4 py-3 rounded-lg border border-gray-300"
+                               placeholder="e.g., DL01AB1234">
+                        <p class="text-xs text-gray-500 mt-1">Format: DL01AB1234 (State Code + Number + Letters + Number)</p>
+                        
+                        <!-- Duplicate Warning -->
+                        <div id="vehicle-warning" class="hidden mt-2 p-3 rounded-lg warning-message text-sm">
+                            ⚠️ This vehicle number already exists in our records
+                        </div>
+                    </div>
+                    
+                    <!-- Donation Amount -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Donation Amount <span class="text-red-500">*</span>
+                        </label>
+                        
+                        <!-- Quick Amount Selection -->
+                        <div class="donation-amounts mb-4">
+                            <div class="amount-option" data-amount="51">
+                                <div class="font-semibold">₹51</div>
+                                <div class="text-xs">Basic</div>
+                            </div>
+                            <div class="amount-option" data-amount="101">
+                                <div class="font-semibold">₹101</div>
+                                <div class="text-xs">Standard</div>
+                            </div>
+                            <div class="amount-option" data-amount="501">
+                                <div class="font-semibold">₹501</div>
+                                <div class="text-xs">Premium</div>
+                            </div>
+                            <div class="amount-option" data-amount="1001">
+                                <div class="font-semibold">₹1001</div>
+                                <div class="text-xs">Special</div>
+                            </div>
+                            <div class="amount-option" data-amount="5100">
+                                <div class="font-semibold">₹5100</div>
+                                <div class="text-xs">Generous</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Custom Amount Input -->
+                        <div class="relative">
+                            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 font-semibold">₹</span>
+                            <input type="number" 
+                                   id="amount" 
+                                   name="amount" 
+                                   required
+                                   min="51"
+                                   class="input-field w-full pl-8 pr-4 py-3 rounded-lg border border-gray-300"
+                                   placeholder="Enter amount (minimum ₹51)">
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Minimum donation amount: ₹51</p>
+                    </div>
+                    
+                    <!-- Payment Method -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">
+                            Payment Method
+                        </label>
+                        <div class="space-y-3">
+                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="payment-method" value="bank" class="mr-3" checked>
+                                <div class="flex items-center">
+                                    <span class="text-2xl mr-3">🏦</span>
+                                    <div>
+                                        <div class="font-semibold">Bank Transfer</div>
+                                        <div class="text-sm text-gray-600">Direct bank account transfer</div>
+                                    </div>
+                                </div>
+                            </label>
+                            
+                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="payment-method" value="upi" class="mr-3">
+                                <div class="flex items-center">
+                                    <span class="text-2xl mr-3">📱</span>
+                                    <div>
+                                        <div class="font-semibold">UPI Payment</div>
+                                        <div class="text-sm text-gray-600">Pay using UPI apps (PhonePe, Google Pay, etc.)</div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Terms and Conditions -->
+                    <div class="flex items-start">
+                        <input type="checkbox" id="terms" name="terms" required class="mt-1 mr-3">
+                        <label for="terms" class="text-sm text-gray-600">
+                            I agree to the terms and conditions. I understand that this donation is 
+                            voluntary and non-refundable. I consent to my name being displayed in 
+                            the public donor records (vehicle number will be kept private).
+                        </label>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="submit" 
+                                id="submit-donation"
+                                class="submit-btn w-full md:w-auto px-12 py-4 rounded-full text-white font-semibold text-lg">
+                            <span class="flex items-center justify-center">
+                                <span class="mr-2">🙏</span>
+                                Complete Donation
+                                <span class="ml-2">→</span>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Payment Information Modal -->
+    <div id="payment-info-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl p-6 max-w-md w-full">
+            <div class="text-center mb-6">
+                <div class="text-4xl mb-4">🙏</div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Donation Submitted!</h3>
+                <p class="text-gray-600">
+                    Thank you for your generous contribution. Please complete the payment using the details below:
+                </p>
+            </div>
+            
+            <div id="payment-details" class="space-y-4">
+                <!-- Payment details will be populated by JavaScript -->
+            </div>
+            
+            <div class="text-center mt-6">
+                <button onclick="closePaymentModal()" 
+                        class="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-orange-600 hover:to-yellow-600">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation -->
+    <nav class="nav-bottom fixed bottom-0 left-0 right-0 z-50 py-2">
+        <div class="flex justify-around items-center max-w-md mx-auto">
+            <a href="index.html" class="nav-item flex flex-col items-center p-2 text-gray-600">
+                <svg class="w-6 h-6 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                </svg>
+                <span class="text-xs font-medium">Home</span>
+            </a>
+            
+            <a href="donate.html" class="nav-item flex flex-col items-center p-2 text-orange-600">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                </svg>
+                <span class="text-xs font-medium">Donate</span>
+            </a>
+            
+            <a href="records.html" class="nav-item flex flex-col items-center p-2 text-gray-600">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <span class="text-xs font-medium">Records</span>
+            </a>
+            
+            <a href="admin.html" class="nav-item flex flex-col items-center p-2 text-gray-600">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                <span class="text-xs font-medium">Admin</span>
+            </a>
+        </div>
+    </nav>
+    
+    <!-- Main JavaScript -->
+    <script src="main.js"></script>
+    
+    <!-- Donation Form Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date
+            const today = new Date().toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+            document.getElementById('donation-date').value = today;
+            
+            // Amount selection functionality
+            const amountOptions = document.querySelectorAll('.amount-option');
+            const amountInput = document.getElementById('amount');
+            
+            amountOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove selected class from all options
+                    amountOptions.forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+                    
+                    // Update input value
+                    amountInput.value = this.dataset.amount;
+                    
+                    // Validate the amount
+                    validateAmount();
+                });
+            });
+            
+            // Custom amount input
+            amountInput.addEventListener('input', function() {
+                // Remove selected class from all options
+                amountOptions.forEach(opt => opt.classList.remove('selected'));
+                
+                // Validate the amount
+                validateAmount();
+            });
+            
+            // Vehicle number validation
+            const vehicleInput = document.getElementById('vehicle-number');
+            vehicleInput.addEventListener('input', function() {
+                // Convert to uppercase and remove spaces
+                this.value = this.value.toUpperCase().replace(/\s/g, '');
+                
+                // Format as user types
+                if (this.value.length >= 2 && this.value.length <= 4) {
+                    this.value = this.value.slice(0, 2) + this.value.slice(2).replace(/[^0-9]/g, '');
+                } else if (this.value.length > 4) {
+                    this.value = this.value.slice(0, 4) + this.value.slice(4).replace(/[^A-Z]/g, '');
+                }
+                
+                if (this.value.length > 6) {
+                    this.value = this.value.slice(0, 6) + this.value.slice(6).replace(/[^0-9]/g, '');
+                }
+                
+                // Validate format
+                validateVehicleNumber();
+            });
+            
+            // Phone number validation
+            const phoneInput = document.getElementById('phone');
+            phoneInput.addEventListener('input', function() {
+                // Only allow numbers
+                this.value = this.value.replace(/[^0-9]/g, '');
+                
+                // Limit to 10 digits
+                if (this.value.length > 10) {
+                    this.value = this.value.slice(0, 10);
+                }
+                
+                validatePhoneNumber();
+            });
+            
+            // Form validation functions
+            function validateAmount() {
+                const amount = parseInt(amountInput.value);
+                const amountGroup = amountInput.closest('.input-field').parentElement;
+                
+                if (!amount || amount < 51) {
+                    amountGroup.classList.add('error');
+                    amountGroup.classList.remove('success');
+                    return false;
+                } else {
+                    amountGroup.classList.remove('error');
+                    amountGroup.classList.add('success');
+                    return true;
+                }
+            }
+            
+            function validateVehicleNumber() {
+                const vehicle = vehicleInput.value;
+                const vehicleGroup = vehicleInput.closest('.input-field').parentElement;
+                const pattern = /^[A-Z]{2}\d{2}[A-Z]{2}\d{4}$/;
+                
+                if (vehicle && pattern.test(vehicle)) {
+                    vehicleGroup.classList.remove('error');
+                    vehicleGroup.classList.add('success');
+                    return true;
+                } else if (vehicle) {
+                    vehicleGroup.classList.add('error');
+                    vehicleGroup.classList.remove('success');
+                    return false;
+                } else {
+                    vehicleGroup.classList.remove('error', 'success');
+                    return false;
+                }
+            }
+            
+            function validatePhoneNumber() {
+                const phone = phoneInput.value;
+                const phoneGroup = phoneInput.closest('.input-field').parentElement;
+                
+                if (phone && phone.length === 10) {
+                    phoneGroup.classList.remove('error');
+                    phoneGroup.classList.add('success');
+                    return true;
+                } else if (phone) {
+                    phoneGroup.classList.add('error');
+                    phoneGroup.classList.remove('success');
+                    return false;
+                } else {
+                    phoneGroup.classList.remove('error', 'success');
+                    return false;
+                }
+            }
+            
+            // Enhanced form submission
+            document.getElementById('donation-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate all fields
+                const isAmountValid = validateAmount();
+                const isVehicleValid = validateVehicleNumber();
+                const isPhoneValid = validatePhoneNumber();
+                const name = document.getElementById('name').value.trim();
+                const terms = document.getElementById('terms').checked;
+                
+                if (!name) {
+                    templeApp.showError('Please enter your full name');
+                    return;
+                }
+                
+                if (!isAmountValid) {
+                    templeApp.showError('Please enter a valid donation amount (minimum ₹51)');
+                    return;
+                }
+                
+                if (!isVehicleValid) {
+                    templeApp.showError('Please enter a valid vehicle number (e.g., DL01AB1234)');
+                    return;
+                }
+                
+                if (!isPhoneValid) {
+                    templeApp.showError('Please enter a valid 10-digit phone number');
+                    return;
+                }
+                
+                if (!terms) {
+                    templeApp.showError('Please accept the terms and conditions');
+                    return;
+                }
+                
+                // Check for duplicate vehicle number
+                if (templeApp.isVehicleNumberDuplicate(vehicleInput.value)) {
+                    templeApp.showError('This vehicle number already exists in our records');
+                    return;
+                }
+                
+                // All validations passed, submit the form
+                const formData = new FormData(this);
+                const donationData = {
+                    name: formData.get('name'),
+                    phone: formData.get('phone'),
+                    vehicle: formData.get('vehicle').toUpperCase(),
+                    amount: formData.get('amount')
+                };
+                
+                // Add donation
+                const newDonation = templeApp.addDonation(donationData);
+                
+                // Show payment information
+                showPaymentInformation(formData.get('payment-method'), newDonation);
+                
+                // Reset form
+                this.reset();
+                amountOptions.forEach(opt => opt.classList.remove('selected'));
+            });
+        });
+        
+        function showPaymentInformation(paymentMethod, donation) {
+            const modal = document.getElementById('payment-info-modal');
+            const details = document.getElementById('payment-details');
+            
+            let paymentDetails = '';
+            
+            if (paymentMethod === 'bank') {
+                paymentDetails = `
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-blue-900 mb-2">Bank Transfer Details</h4>
+                        <div class="space-y-1 text-sm text-blue-800">
+                            <p><strong>Account Name:</strong> Jay Maa Laxmi Temple Trust</p>
+                            <p><strong>Account Number:</strong> 1234567890</p>
+                            <p><strong>Bank:</strong> State Bank of India</p>
+                            <p><strong>IFSC Code:</strong> SBIN0001234</p>
+                            <p><strong>Amount:</strong> ₹${donation.amount.toLocaleString()}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                paymentDetails = `
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-green-900 mb-2">UPI Payment</h4>
+                        <div class="space-y-2 text-sm text-green-800">
+                            <p><strong>UPI ID:</strong> jaymaalaxmi@upi</p>
+                            <p><strong>Amount:</strong> ₹${donation.amount.toLocaleString()}</p>
+                            <div class="text-center mt-3">
+                                <div class="w-32 h-32 bg-gray-200 rounded-lg mx-auto flex items-center justify-center">
+                                    <span class="text-gray-500 text-sm">QR Code</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            details.innerHTML = paymentDetails;
+            modal.classList.remove('hidden');
+        }
+        
+        function closePaymentModal() {
+            document.getElementById('payment-info-modal').classList.add('hidden');
+            // Redirect to records page to see the donation
+            setTimeout(() => {
+                window.location.href = 'records.html';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

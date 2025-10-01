@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jay Maa Laxmi Temple - Donation Portal</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/splitting@1.0.6/dist/splitting.css">
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --saffron: #FF6B35;
+            --gold: #D4AF37;
+            --maroon: #800020;
+            --cream: #FFF8DC;
+            --charcoal: #2C2C2C;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #FFF5E6 100%);
+            min-height: 100vh;
+        }
+        
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--saffron) 0%, var(--gold) 50%, var(--maroon) 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, var(--saffron), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, var(--saffron), var(--gold));
+            transition: width 2s ease-out;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 10s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .temple-pattern {
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(255, 107, 53, 0.1) 0%, transparent 50%);
+        }
+        
+        .nav-bottom {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .nav-item {
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item:hover {
+            color: var(--saffron);
+            transform: translateY(-2px);
+        }
+        
+        .donation-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 248, 220, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pulseGlow {
+            from {
+                box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+            }
+            to {
+                box-shadow: 0 0 30px rgba(255, 107, 53, 0.6);
+            }
+        }
+    </style>
+</head>
+<body class="temple-pattern">
+    <!-- Particle Container -->
+    <div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
+    
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex flex-col">
+        <!-- Hero Background -->
+        <div class="absolute inset-0 z-0">
+            <img src="resources/temple-hero.png" alt="Jay Maa Laxmi Temple" 
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+        </div>
+        
+        <!-- Hero Content -->
+        <div class="relative z-10 flex-1 flex flex-col justify-center items-center text-center px-4 py-8">
+            <div class="max-w-4xl mx-auto">
+                <!-- Temple Name -->
+                <h1 class="font-display text-4xl md:text-6xl font-bold text-white mb-4 split-text">
+                    जय माँ लक्ष्मी मंदिर
+                </h1>
+                
+                <!-- Blessing Text -->
+                <div class="text-xl md:text-2xl text-yellow-200 mb-8 h-16">
+                    <span id="temple-blessing"></span>
+                </div>
+                
+                <!-- Mission Statement -->
+                <p class="text-lg md:text-xl text-white mb-8 max-w-2xl mx-auto leading-relaxed">
+                    Join us in building a sacred space dedicated to Maa Laxmi, where divine blessings 
+                    and community spirit come together to create prosperity for all.
+                </p>
+                
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a href="donate.html" 
+                       class="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-8 py-4 rounded-full 
+                              font-semibold text-lg hover:from-orange-600 hover:to-yellow-600 
+                              transform hover:scale-105 transition-all duration-300 pulse-glow">
+                        🙏 Donate Now
+                    </a>
+                    <a href="records.html" 
+                       class="bg-white bg-opacity-20 text-white px-8 py-4 rounded-full 
+                              font-semibold text-lg hover:bg-opacity-30 
+                              transform hover:scale-105 transition-all duration-300">
+                        View Records
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="relative z-10 text-center pb-8">
+            <div class="animate-bounce">
+                <svg class="w-6 h-6 mx-auto text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                </svg>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Donation Progress Section -->
+    <section class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-gradient mb-4">
+                    Temple Construction Progress
+                </h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Track our journey towards building this sacred space for Maa Laxmi
+                </p>
+            </div>
+            
+            <!-- Progress Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <!-- Total Collected -->
+                <div class="donation-card rounded-xl p-6 text-center card-hover">
+                    <div class="text-3xl mb-2">💰</div>
+                    <h3 class="font-semibold text-gray-700 mb-2">Total Collected</h3>
+                    <p id="total-donations" class="text-2xl md:text-3xl font-bold text-gradient">₹0</p>
+                </div>
+                
+                <!-- Target Amount -->
+                <div class="donation-card rounded-xl p-6 text-center card-hover">
+                    <div class="text-3xl mb-2">🎯</div>
+                    <h3 class="font-semibold text-gray-700 mb-2">Target Amount</h3>
+                    <p id="target-amount" class="text-2xl md:text-3xl font-bold text-gradient">₹0</p>
+                </div>
+                
+                <!-- Balance Remaining -->
+                <div class="donation-card rounded-xl p-6 text-center card-hover">
+                    <div class="text-3xl mb-2">📊</div>
+                    <h3 class="font-semibold text-gray-700 mb-2">Balance Remaining</h3>
+                    <p id="balance-remaining" class="text-2xl md:text-3xl font-bold text-gradient">₹0</p>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="bg-white rounded-xl p-6 shadow-lg">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-semibold text-gray-800">Construction Progress</h3>
+                    <span class="text-sm text-gray-600" id="progress-percentage">0%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+                    <div id="progress-bar" class="progress-bar h-full rounded-full" style="width: 0%"></div>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">
+                    Every donation brings us closer to completing Maa Laxmi's sacred temple
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Temple Information Section -->
+    <section class="py-16 px-4 bg-white bg-opacity-50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-gradient mb-4">
+                    About Our Temple
+                </h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    A sacred sanctuary dedicated to Maa Laxmi, the goddess of wealth and prosperity
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Temple Image Carousel -->
+                <div class="splide" role="group">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            <li class="splide__slide">
+                                <img src="https://kimi-web-img.moonshot.cn/img/cdn.exoticindia.com/d7a2b182dd8671b58d738d5a93b64d8ff45c1c.jpg" 
+                                     alt="Traditional Temple Bells" 
+                                     class="w-full h-80 object-cover rounded-xl shadow-lg">
+                            </li>
+                            <li class="splide__slide">
+                                <img src="https://kimi-web-img.moonshot.cn/img/i.pinimg.com/8a2ebbdfe1ed67b9299eeef5a0e4fbbedde31fab.jpg" 
+                                     alt="Temple Marble Floor Patterns" 
+                                     class="w-full h-80 object-cover rounded-xl shadow-lg">
+                            </li>
+                            <li class="splide__slide">
+                                <img src="https://kimi-web-img.moonshot.cn/img/www.davidhellard.com/86d5dab320f406d47d8699052eb1304faf782940.jpg" 
+                                     alt="Temple Prayer Hall" 
+                                     class="w-full h-80 object-cover rounded-xl shadow-lg">
+                            </li>
+                            <li class="splide__slide">
+                                <img src="https://kimi-web-img.moonshot.cn/img/i.pinimg.com/c0c4b7ada4197aa82a91403ab596f500603c3fdd.jpg" 
+                                     alt="Temple Entrance Gopuram" 
+                                     class="w-full h-80 object-cover rounded-xl shadow-lg">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Temple Information -->
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="font-display text-2xl font-semibold text-gray-800 mb-4">
+                            Our Sacred Mission
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            The Jay Maa Laxmi Temple is being constructed as a beacon of spiritual guidance 
+                            and community service. Our vision is to create a space where devotees can connect 
+                            with the divine energy of Maa Laxmi and find peace, prosperity, and spiritual growth.
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-3">Temple Features</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-center">
+                                <span class="text-orange-500 mr-2">🏛️</span>
+                                Traditional temple architecture with intricate carvings
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-orange-500 mr-2">🕯️</span>
+                                Daily aarti and prayer ceremonies
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-orange-500 mr-2">🌸</span>
+                                Beautiful gardens and meditation spaces
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-orange-500 mr-2">🎭</span>
+                                Cultural and educational programs
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-orange-500 mr-2">🍛</span>
+                                Community kitchen (Bhandara) services
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-3">Spiritual Significance</h4>
+                        <p class="text-gray-600 leading-relaxed">
+                            Maa Laxmi, the goddess of wealth, fortune, and prosperity, will be the presiding 
+                            deity of our temple. Her divine presence is believed to bring abundance, 
+                            success, and spiritual fulfillment to all devotees who seek her blessings.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Recent Donors Section -->
+    <section class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-gradient mb-4">
+                    Recent Devotees
+                </h2>
+                <p class="text-gray-600 text-lg">
+                    Blessings to our generous donors who support our sacred mission
+                </p>
+            </div>
+            
+            <div id="recent-donors" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Recent donors will be populated by JavaScript -->
+            </div>
+            
+            <div class="text-center mt-8">
+                <a href="records.html" 
+                   class="inline-flex items-center text-orange-600 hover:text-orange-700 font-semibold">
+                    View All Donors
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Payment Methods Section -->
+    <section class="py-16 px-4 bg-white bg-opacity-50">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-gradient mb-4">
+                    Donation Methods
+                </h2>
+                <p class="text-gray-600 text-lg">
+                    Multiple convenient ways to contribute to our temple construction
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Bank Transfer -->
+                <div class="donation-card rounded-xl p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="text-2xl mr-3">🏦</div>
+                        <h3 class="font-semibold text-gray-800">Bank Transfer</h3>
+                    </div>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <p><strong>Account Name:</strong> Jay Maa Laxmi Temple Trust</p>
+                        <p><strong>Account Number:</strong> 1234567890</p>
+                        <p><strong>Bank:</strong> State Bank of India</p>
+                        <p><strong>Branch:</strong> Main Branch</p>
+                        <p><strong>IFSC Code:</strong> SBIN0001234</p>
+                    </div>
+                </div>
+                
+                <!-- UPI Payment -->
+                <div class="donation-card rounded-xl p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="text-2xl mr-3">📱</div>
+                        <h3 class="font-semibold text-gray-800">UPI Payment</h3>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-gray-100 rounded-lg p-4 mb-4">
+                            <div class="w-32 h-32 bg-gray-200 rounded-lg mx-auto flex items-center justify-center">
+                                <span class="text-gray-500 text-sm">QR Code</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600">
+                            <strong>UPI ID:</strong> jaymaalaxmi@upi
+                        </p>
+                        <p class="text-xs text-gray-500 mt-2">
+                            Scan QR code or use UPI ID for instant donation
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8">
+                <a href="donate.html" 
+                   class="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-8 py-4 rounded-full 
+                          font-semibold text-lg hover:from-orange-600 hover:to-yellow-600 
+                          transform hover:scale-105 transition-all duration-300">
+                    Make a Donation Now
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Bottom Navigation -->
+    <nav class="nav-bottom fixed bottom-0 left-0 right-0 z-50 py-2">
+        <div class="flex justify-around items-center max-w-md mx-auto">
+            <a href="index.html" class="nav-item flex flex-col items-center p-2 text-orange-600">
+                <svg class="w-6 h-6 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                </svg>
+                <span class="text-xs font-medium">Home</span>
+            </a>
+            
+            <a href="donate.html" class="nav-item flex flex-col items-center p-2 text-gray-600">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                </svg>
+                <span class="text-xs font-medium">Donate</span>
+            </a>
+            
+            <a href="records.html" class="nav-item flex flex-col items-center p-2 text-gray-600">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <span class="text-xs font-medium">Records</span>
+            </a>
+            
+            <a href="admin.html" class="nav-item flex flex-col items-center p-2 text-gray-600">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                <span class="text-xs font-medium">Admin</span>
+            </a>
+        </div>
+    </nav>
+    
+    <!-- Main JavaScript -->
+    <script src="main.js"></script>
+    
+    <!-- Additional Homepage Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Populate recent donors
+            function populateRecentDonors() {
+                const container = document.getElementById('recent-donors');
+                if (!container) return;
+                
+                const recentDonations = templeApp.donations.slice(0, 6);
+                const html = recentDonations.map(donation => `
+                    <div class="donation-card rounded-xl p-4 card-hover">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="font-semibold text-gray-900">${donation.name}</h4>
+                                <p class="text-sm text-gray-600">${donation.vehicle}</p>
+                                <p class="text-xs text-gray-500">${templeApp.formatDate(donation.date)}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-lg font-bold text-orange-600">₹${donation.amount.toLocaleString()}</p>
+                                ${donation.verified ? '<span class="text-xs text-green-600">✓ Verified</span>' : '<span class="text-xs text-yellow-600">⏳ Pending</span>'}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                container.innerHTML = html;
+            }
+            
+            // Initialize recent donors after app loads
+            setTimeout(populateRecentDonors, 1000);
+            
+            // Update progress percentage
+            setTimeout(() => {
+                const progressBar = document.getElementById('progress-bar');
+                const progressPercentage = document.getElementById('progress-percentage');
+                if (progressBar && progressPercentage) {
+                    const progress = templeApp.getDonationProgress();
+                    progressPercentage.textContent = Math.round(progress) + '%';
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
