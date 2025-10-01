@@ -468,26 +468,41 @@
                 validateAmount();
             });
             
-            // Vehicle number validation
-            const vehicleInput = document.getElementById('vehicle-number');
-            vehicleInput.addEventListener('input', function() {
-                // Convert to uppercase and remove spaces
-                this.value = this.value.toUpperCase().replace(/\s/g, '');
-                
-                // Format as user types
-                if (this.value.length >= 2 && this.value.length <= 4) {
-                    this.value = this.value.slice(0, 2) + this.value.slice(2).replace(/[^0-9]/g, '');
-                } else if (this.value.length > 4) {
-                    this.value = this.value.slice(0, 4) + this.value.slice(4).replace(/[^A-Z]/g, '');
-                }
-                
-                if (this.value.length > 6) {
-                    this.value = this.value.slice(0, 6) + this.value.slice(6).replace(/[^0-9]/g, '');
-                }
-                
-                // Validate format
-                validateVehicleNumber();
-            });
+           // Vehicle number validation
+const vehicleInput = document.getElementById('vehicle-number');
+
+vehicleInput.addEventListener('input', function() {
+    // Convert to uppercase and remove spaces
+    this.value = this.value.toUpperCase().replace(/\s/g, '');
+
+    // Format step by step
+    let formatted = this.value;
+
+    // First 2 should be letters
+    if (formatted.length > 2) {
+        formatted = formatted.slice(0, 2).replace(/[^A-Z]/g, '') + formatted.slice(2);
+    }
+
+    // Next 2 should be digits
+    if (formatted.length > 4) {
+        formatted = formatted.slice(0, 4).replace(/^([A-Z]{2})[^0-9]*/g, '$1') + formatted.slice(4);
+    }
+
+    // Next 2 should be letters
+    if (formatted.length > 6) {
+        formatted = formatted.slice(0, 6).replace(/^([A-Z]{2}[0-9]{2})[^A-Z]*/g, '$1') + formatted.slice(6);
+    }
+
+    // Last 4 should be digits
+    if (formatted.length > 6) {
+        formatted = formatted.slice(0, 6) + formatted.slice(6).replace(/[^0-9]/g, '');
+    }
+
+    this.value = formatted;
+
+    // Validate format
+    validateVehicleNumber();
+});
             
             // Phone number validation
             const phoneInput = document.getElementById('phone');
