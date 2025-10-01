@@ -257,7 +257,7 @@
                                id="vehicle-number" 
                                name="vehicle" 
                                class="input-field w-full px-4 py-3 rounded-lg border border-gray-300"
-                               placeholder="e.g., DL01AB1234">
+                               placeholder="e.g., OD 01 AB 1234">
                         <p class="text-xs text-gray-500 mt-1">Format: OD 01 AB 1234 </p>
                         
                         <!-- Duplicate Warning -->
@@ -522,7 +522,7 @@
             function validateVehicleNumber() {
                 const vehicle = vehicleInput.value;
                 const vehicleGroup = vehicleInput.closest('.input-field').parentElement;
-                const pattern = /^[A-Z]{2}\d{2}[A-Z]{2}\d{4}$/;
+                const pattern = /^[A-Z]{2}\[a-z]{2}[A-Z]{2}\{4}$/;
                 
                 if (vehicle && pattern.test(vehicle)) {
                     vehicleGroup.classList.remove('error');
